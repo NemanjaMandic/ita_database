@@ -17,8 +17,6 @@ public class ITA_Baza {
 
     public static void main(String[] args) throws SQLException {
 
-        try (Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/ita_baza", "nemanja", "nemanja123");) {
-
             /*
             
             Statement stInsert = conn.createStatement();
@@ -41,8 +39,12 @@ public class ITA_Baza {
 
             } */
 
-            ///// PreparedStatement ///////////////
-            String sql = "insert into users(username,password) values(?,?)";
+           
+         try (Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/ita_baza", "nemanja", "nemanja123");) {
+         
+              ///// PreparedStatement ///////////////
+             /*
+              String sql = "insert into users(username,password) values(?,?)";
 
             try (PreparedStatement ps = con.prepareStatement(sql)) {
                 HashMap<String, String> hm = new HashMap<>();
@@ -54,8 +56,18 @@ public class ITA_Baza {
                     ps.setString(2, entry.getKey());
                     ps.executeUpdate();
                 }
-            }
-
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+        }
+                     */
+             
+             String sql = "insert into users(username,password) values(?,?)";
+             PreparedStatement ps = con.prepareStatement(sql);
+             
+             ps.setString(1, "Korisnik1");
+             ps.setString(2, "Korisnik2");
+             ps.executeUpdate();
+           
             Statement stFetch = con.createStatement();
             String sqli = "select * from users";
             ResultSet rs = stFetch.executeQuery(sqli);
@@ -69,6 +81,7 @@ public class ITA_Baza {
             }
         } catch (Exception exc) {
             System.out.println(exc.getMessage());
-        }
+        }  
+            
     }
 }
